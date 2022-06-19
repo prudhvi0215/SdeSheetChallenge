@@ -1,0 +1,118 @@
+
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+
+using namespace std;
+
+bool validPoint(int x,int y,int n,int m)
+{
+    return (x>=0 && x<n) && (y>=0 && y<m);
+}
+
+void setZerosHelper(vector<vector<int>> &matrix,int start,int end,int rows,int cols)
+{
+    int n = max(rows,cols);
+
+    for(int i=0;i<n;i++)
+    {
+        if(validPoint(start,i,rows,cols))
+        {
+            matrix[start][i] = 0;
+        }
+        
+        if(validPoint(i,end,rows,cols))
+        {
+            matrix[i][end] = 0;
+        }
+    }
+    
+    return;
+}
+
+void setZeros(vector<vector<int>> &matrix,int rows,int cols)
+{
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    
+    
+    vector<vector<int>> spaceMatrix(rows,vector<int>(cols));
+    
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<cols;j++)
+        {
+            spaceMatrix[i][j] = matrix[i][j];
+        }
+    }
+    
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<cols;j++)
+        {
+            if(matrix[i][j]==0)
+            {
+                setZerosHelper(spaceMatrix,i,j,rows,cols);
+            }
+        }
+    }
+    
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<cols;j++)
+        {
+            matrix[i][j] = spaceMatrix[i][j];
+        }
+    }
+    
+    return;
+}
+
+
+// 4 4 1 2 3 4 5 6 0 7 8 0 4 3 2 1 5 8
+// 3 4 0 1 8 4 3 2 1 0 9 4 3 5
+
+int main() {
+    // Write C++ code here
+    int rows,cols;
+    cin>>rows>>cols;
+    
+    vector<vector<int>> matrix(rows,vector<int>(cols));
+
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<cols;j++)
+        {
+            int data;
+            cout<<"Enter "<<i<<" th row & "<<j<<" th col data: \n";
+            cin>>data;
+            matrix[i][j] = data;
+        }
+    }
+    
+    //Before Passing to function
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<cols;j++)
+        {
+            cout<<matrix[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+    
+    setZeros(matrix,rows,cols);
+    
+    cout<<'\n';
+    
+    //After Passing to function
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0;j<cols;j++)
+        {
+            cout<<matrix[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+    
+    
+    return 0;
+}
