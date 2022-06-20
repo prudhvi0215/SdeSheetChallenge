@@ -1,0 +1,75 @@
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+
+using namespace std;
+
+// Optimal Approach
+
+int Kadanes(vector<int> &nums,int n)
+{
+        long long sum = 0;
+        long long maxi = LONG_MIN;
+
+        for(int i=0;i<n;i++)
+        {
+            sum += nums[i];
+
+            maxi = max(sum,maxi);
+
+            if(sum<0){
+                sum = 0;
+            }
+        }
+
+        if(maxi<0){
+            return 0;
+        }
+
+        return maxi;
+}
+
+
+//Brute Approach
+
+int Kadanes(vector<int> &nums,int n)
+{
+   int sum = INT_MIN;
+    
+    for(int i=0;i<n;i++)
+    {
+        int childAns = 0;
+        
+        for(int j=i;j<n;j++)
+        {
+            childAns = childAns + nums[j];
+            sum = max(sum,childAns);
+        }
+    }
+    
+    if(sum<0){
+        return 0;
+    }
+    
+    return sum;
+}
+
+
+//7 2 8 -1 0 4 -3 8
+int main() {
+    // Write C++ code here
+    int n;
+    cin>>n;
+    
+    vector<int> nums(n);
+    
+    for(int i=0;i<n;i++)
+    {
+        int data;
+        cin>>data;
+        nums[i] = data;
+    }
+    
+    cout<<Kadanes(nums,n);
+    
+    return 0;
+}
